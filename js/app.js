@@ -27,7 +27,7 @@ const el = {
   steps: $('steps'), fill: $('bar-fill'), goalText: $('goal-text'),
   streakNum: $('streak-num'), streakLabel: $('streak-label'), coins: $('coins'),
   todayPts: $('today-pts'), totalPts: $('total-pts'),
-  syncInput: $('sync-input'), syncBtn: $('sync-btn'),
+  sync: $('sync'), syncNote: $('sync-note'), syncInput: $('sync-input'), syncBtn: $('sync-btn'),
   start: $('start'), status: $('status'), manual: $('manual'), goal: $('goal'), toast: $('toast'),
   pvSteps: $('pv-steps'), pvStepsVal: $('pv-steps-val'), pvTime: $('pv-time'), pvStreak: $('pv-streak'), pvReset: $('pv-reset'),
 };
@@ -262,6 +262,37 @@ if (el.pvSteps) {
     save(); render(); say(stateLine());
   });
   el.pvReset.addEventListener('click', () => { data = { days: {}, bonus: {}, goal: data.goal }; save(); el.pvSteps.value = '0'; el.pvStepsVal.textContent = '0'; mood = 'idle'; render(); showOpeningLines(); });
+}
+
+/* ===== Androidアプリ（箱）との連携 =====
+   window.PopoNative があれば、スマホ本体の歩数センサー（電源オンからの累計）をもらう。
+   前回もらった値との差分を「きょうの風」に足す。 */
+const isApp = !!window.PopoNative;
+let nativeTimer = null;
+function nativeSync() {
+  if (!isApp) return;
+  try {
+    if (!PopoNative.hasSensor()) { el.syncNote.textContent = 'この端末には歩数センサーがないみたい。手で入れてね'; el.sync.classList.remove('auto'); return; }
+    if (!PopoNative.hasPermission()) { PopoNative.requestPermission(); return; }
+    const c = Number(PopoNative.getStepCounter());
+    if (!(c >= 0)) { clearTimeout(nativeTimer); nativeTimer = setTimeout(nativeSync, 1500); return; } // センサーの最初の値待ち
+    const key = today(), last = data.native;
+    if (!last) { data.native = { counter: c, date: key }; save(); el.syncNote.textContent = '自動で数えはじめたよ。ここからの歩数が風になる'; return; }
+    let delta = c >= last.counter ? c - last.counter : c;   // 再起動でカウンタが戻ったら、起動後の分だけ
+    data.native = { counter: c, date: key };
+    if (delta > 0) addSteps(delta, true); else save();
+    el.syncNote.textContent = '自動で数えているよ（' + new Date().toLocaleTimeString('ja-JP', {hour:'2-digit', minute:'2-digit'}) + ' に確認）';
+  } catch (e) {}
+}
+window.onPopoNative = (kind, value) => {
+  if (kind === 'steps' || kind === 'permission') nativeSync();
+};
+if (isApp) {
+  document.body.classList.add('app');
+  el.sync.classList.add('auto');
+  el.syncNote.textContent = '自動で数えているよ';
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') nativeSync(); });
+  setTimeout(nativeSync, 800);
 }
 
 /* ===== 起動 ===== */

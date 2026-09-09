@@ -150,6 +150,11 @@ body.quiet { filter: saturate(.35); }
 }
 #sync .hint { font-size: 11px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
 #sync .hint b { color: var(--red); }
+/* アプリ（箱）の中では入力欄を隠し、自動の表示に切り替える */
+.auto-only { display: none; }
+#sync.auto .manual-only { display: none; }
+#sync.auto .auto-only { display: block; }
+#sync.auto { background: var(--teal-soft); border-color: rgba(79,176,198,.35); }
 
 button { font: inherit; border: none; cursor: pointer; color: inherit; -webkit-tap-highlight-color: transparent; }
 .btn {

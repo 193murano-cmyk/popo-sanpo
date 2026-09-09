@@ -1,0 +1,4 @@
+// ポポさんぽ Android（箱）— Web版を表示し、歩数センサーだけを足す
+plugins {
+    id 'com.android.application' version '8.5.2' apply false
+}

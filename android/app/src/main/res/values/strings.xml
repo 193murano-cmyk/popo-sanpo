@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ポポさんぽ</string>
+    <!-- 表示するWebページ。ここを変えると別の場所のページを表示できる -->
+    <string name="app_url">https://193murano-cmyk.github.io/popo-sanpo/?app=android</string>
+</resources>

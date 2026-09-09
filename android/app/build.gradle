@@ -1,0 +1,21 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'jp.popo.sanpo'
+    compileSdk 34
+    defaultConfig {
+        applicationId 'jp.popo.sanpo'
+        minSdk 26
+        targetSdk 34
+        versionCode 1
+        versionName '0.2'
+    }
+    buildTypes {
+        release { minifyEnabled false }
+        debug { applicationIdSuffix '' }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

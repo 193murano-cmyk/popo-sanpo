@@ -58,12 +58,13 @@
 
   <!-- 歩数を入れる（アプリ版では自動） -->
   <div id="sync">
-    <div class="title">📱 きょうの歩数を入れる</div>
-    <div class="sync-row">
+    <div class="title"><span class="manual-only">📱 きょうの歩数を入れる</span><span class="auto-only">🌬️ 歩数は自動</span></div>
+    <div class="sync-row manual-only">
       <input id="sync-input" type="number" inputmode="numeric" min="0" max="99999" placeholder="0">
       <button class="btn" id="sync-btn">風にする</button>
     </div>
-    <div class="hint">スマホの歩数アプリに出ている「今日の歩数」を入れてね。<b>アプリ版では自動で入ります。</b></div>
+    <div class="hint manual-only">スマホの歩数アプリに出ている「今日の歩数」を入れてね。<b>アプリ版では自動で入ります。</b></div>
+    <div class="hint auto-only" id="sync-note">自動で数えているよ</div>
   </div>
 
   <details>
