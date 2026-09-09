@@ -1,8 +1,11 @@
-const CACHE = 'popo-sanpo-v1';
+const CACHE = 'popo-sanpo-v2';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
+  './css/style.css',
+  './js/lines.js',
+  './js/app.js',
   './img/popo_idle.png',
   './img/popo_walk.png',
   './img/popo_good.png',
