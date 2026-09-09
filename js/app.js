@@ -244,7 +244,9 @@ el.manual.addEventListener('click', (e) => { const n = Number(e.target.dataset.a
 el.goal.addEventListener('change', () => { data.goal = Number(el.goal.value); save(); render(); say(stateLine()); });
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { if (tracking) requestWakeLock(); render(); } });
 
-/* ===== 確認用パネル（あとで消す） ===== */
+/* ===== 確認用パネル（URLに ?debug=1 を付けたときだけ表示） ===== */
+const debugOn = /[?&]debug=1/.test(location.search);
+if (el.pvSteps && !debugOn) { document.getElementById('preview').remove(); el.pvSteps = null; }
 if (el.pvSteps) {
   el.pvSteps.max = String(Math.max(10000, data.goal * 2));
   el.pvSteps.value = String(stepsToday()); el.pvStepsVal.textContent = fmt(stepsToday());
