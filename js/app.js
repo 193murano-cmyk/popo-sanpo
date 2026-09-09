@@ -127,6 +127,7 @@ function render() {
   document.body.classList.toggle('quiet', !goalHit && quiet !== null && quiet >= QUIET_DAYS);
   // カナデ
   el.kanade.textContent = L.kanade[timeOfDay()];
+  if (el.pvSteps && document.activeElement !== el.pvSteps) { el.pvSteps.value = String(s); el.pvStepsVal.textContent = fmt(s); }
   autoMood();
 }
 function renderCoins() {
